@@ -1,0 +1,35 @@
+<header>
+  <p-toolbar styleClass="topbar">
+    <ng-template pTemplate="start">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-search"/>
+        <input type="text" pInputText placeholder="Search"/>
+      </p-iconField>
+
+      <p-menubar [model]="items" />
+
+    </ng-template>
+
+
+    <ng-template pTemplate="end">
+      <p-button (onClick)="sidebarVisible = true" icon="pi pi-bars" />
+    </ng-template>
+  </p-toolbar>
+
+  <p-sidebar [(visible)]="sidebarVisible" position="right" styleClass="sidebar">
+    <p-iconField iconPosition="left">
+      <p-inputIcon styleClass="pi pi-search"/>
+      <input type="text" pInputText placeholder="Search"/>
+    </p-iconField>
+    <br><br>
+    <p-panelMenu [model]="items" [multiple]="true"/>
+  </p-sidebar>
+
+</header>
+
+<main class="padding-default">
+  <router-outlet/>
+<!--  <app-recipes></app-recipes>-->
+</main>
+
+<footer></footer>

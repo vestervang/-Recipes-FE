@@ -1,0 +1,166 @@
+@if (recipe$ | async; as recipe) {
+  <div class="recipe-header">
+
+    <h1>
+      {{ recipe.title }}
+    </h1>
+
+    <div class="recipe-post-data">
+      <div class="recipe-author"><a href="#">{{ recipe.author.name }}</a></div>
+      <div class="recipe-created-at" title="2024-09-05">{{ recipe.createdAt | date }}</div>
+    </div>
+
+    <img src="https://images.placeholders.dev/?width=700&height=400">
+  </div>
+
+  <div class="recipe-quick-info">
+    <div class="recipe-quick-info-section">
+      <div class="recipe-quick-info-section-text">
+        Prep time
+      </div>
+      <div class="recipe-quick-info-section-amount">
+        15min
+      </div>
+    </div>
+    <div class="recipe-quick-info-section">
+
+      <p-inputNumber
+        [(ngModel)]="serving"
+        [showButtons]="true"
+        buttonLayout="horizontal"
+        inputId="servings"
+        step="1"
+        min="1"
+        max="999"
+        incrementButtonIcon="pi pi-plus"
+        decrementButtonIcon="pi pi-minus"
+        class="servings-input"
+        [inputStyle]="{'width':'100%', 'text-align': 'right'}"
+      />
+    </div>
+    <div class="recipe-quick-info-section">
+      PRINT VERSION
+    </div>
+    <div class="recipe-quick-info-section">
+      <a routerLink="" (click)="openGroceryList()">Grocery list</a>
+    </div>
+  </div>
+
+  <div class="recipe-content">
+    <div>
+      <div class="recipe-ingredients">
+        <h2>Ingredients</h2>
+
+        @for (section of recipe.ingredientList; track section; let sectionIndex = $index) {
+          <div class="recipe-ingredients-section">
+            <h3>{{ section.title }}</h3>
+            @for (ingredient of section.ingredients; track ingredient; let ingredientIndex = $index) {
+              <div class="recipe-ingredient">
+                <p-checkbox
+                  [binary]="true"
+                  label="{{ ingredient.amount }} {{ ingredient.unit }} ({{ ingredient.amountInGrams }} g) {{ ingredient.name }}"
+                  inputId="ingredient-{{sectionIndex}}-{{ingredientIndex}}"
+                ></p-checkbox>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!--    <div class="recipe-nutrition-facts">-->
+      <!--      <h3>Nutrition Facts</h3>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Calories</div>-->
+      <!--        <div>{{ caloriesPer100Grams | number:'1.0-1' }}</div>-->
+      <!--      </div>-->
+
+      <!--      {{ getNutritionFacts(recipe.ingredient_list) }}-->
+      <!--    </div>-->
+
+      <!--    <div class="recipe-nutrition-facts">-->
+      <!--      <h3>Nutrition Facts</h3>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Calories</div>-->
+      <!--        <div>219.9</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Total Fat</div>-->
+      <!--        <div>10.7 g</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Saturated Fat</div>-->
+      <!--        <div>2.2 g</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Cholesterol</div>-->
+      <!--        <div>37.4 mg</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Sodium</div>-->
+      <!--        <div>120.3 mg</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Potassium</div>-->
+      <!--        <div>32.8 mg</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Total Carbohydrate</div>-->
+      <!--        <div>22.3 g</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Sugars</div>-->
+      <!--        <div>8.4 g</div>-->
+      <!--      </div>-->
+      <!--      <div class="recipe-nutrition-fact">-->
+      <!--        <div>Protein</div>-->
+      <!--        <div>7.9 g</div>-->
+      <!--      </div>-->
+      <!--    </div>-->
+    </div>
+
+    <div>
+      <h2>Instructions</h2>
+      <ol class="recipe-steps">
+
+        @for (section of recipe.steps; track section; ) {
+          <h3 class="recipe-step-header">{{ section.title }}</h3>
+          @for (step of section.steps; track step; ) {
+            <li class="recipe-step" (click)="toggleDone($event)">
+              <div class="recipe-step-text">
+                {{ step.text }}
+              </div>
+
+              @if (step.ingredients.length > 0) {
+                <div class="recipe-step-ingredients">
+                  @for (ingredient of step.ingredients; track ingredient) {
+                    <div>{{ ingredient.amount }} {{ ingredient.unit }} ({{ ingredient.amountInGrams }}
+                      g) {{ ingredient.name }}
+                    </div>
+                  }
+                </div>
+              }
+            </li>
+          }
+        }
+      </ol>
+    </div>
+  </div>
+
+  <p-dialog header="Grocery list" [modal]="true" [(visible)]="showGroceryList" [style]="{ width: '25rem' }">
+    <div class="modal-wrapper">
+      <div class="grocery-list">
+        @for (listItem of groceryList$(); track listItem; let ingredientIndex = $index) {
+          <div class="grocery-item">
+            <p-checkbox
+              [binary]="true"
+              label="{{ listItem.amount }} {{ listItem.unit }} ({{ listItem.amountInGrams }} g) {{ listItem.name }}"
+              inputId="grocery-list-{{ingredientIndex}}"
+            ></p-checkbox>
+          </div>
+        }
+      </div>
+    </div>
+  </p-dialog>
+
+
+}

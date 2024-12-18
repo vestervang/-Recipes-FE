@@ -1,0 +1,148 @@
+:host {
+  --recipe-step-margin: 2em 0;
+}
+
+.servings-input {
+  width: 7.5rem;
+}
+
+.recipe-header {
+  margin-bottom: 1rem;
+
+  .recipe-post-data {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  img {
+    border-radius: 1rem;
+  }
+
+}
+
+.recipe-quick-info {
+  display: flex;
+  margin-bottom: 2rem;
+
+  .recipe-quick-info-section {
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 0 1rem;
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+.recipe-content {
+  display: grid;
+  //grid-template-columns: 25rem 1fr; // For desktop
+  grid-template-rows: auto auto;
+
+  .recipe-ingredients {
+
+    margin-bottom: 3rem;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .recipe-ingredients-section {
+      margin-bottom: 2rem;
+
+      h3 {
+        margin-bottom: .5rem;
+      }
+
+      .recipe-ingredient {
+        margin-bottom: .5rem;
+      }
+    }
+  }
+
+}
+
+.recipe-nutrition-facts {
+  background: #f9f9f9;
+  border-radius: 1rem;
+  padding: 1rem;
+
+  .recipe-nutrition-fact {
+    display: flex;
+    border-bottom: 1px solid black;
+
+    &:last-child {
+      border: none;
+    }
+
+    & div:first-child {
+      flex: 1;
+    }
+  }
+}
+
+.recipe-steps {
+  clear: both;
+  list-style: none;
+  padding-left: 2%;
+
+  .recipe-step-header:not(:first-child){
+    margin-top: 2rem;
+  }
+
+  .recipe-step {
+    padding-top: 1.5em;
+    display: block;
+    position: relative;
+    counter-increment: inst;
+    padding-left: 2.5rem;
+
+    &::before {
+      font-family: "Roboto Mono", monospace;
+      content: counter(inst);
+      display: block;
+      position: absolute;
+      left: 0;
+      padding-left: 0.005rem;
+      background: hsl(33, 100%, 50%);
+      color: #fff;
+
+      text-align: center;
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 50%;
+      line-height: 1.5rem;
+    }
+
+    &.done {
+      text-decoration: line-through;
+    }
+  }
+}
+
+.recipe-step-ingredients {
+  display: flex;
+  gap: .5rem;
+  color: hsl(0, 0%, 40%);
+
+  & div {
+    position: relative;
+
+    &:not(:last-child):after {
+      position: absolute;
+      content: ',';
+    }
+  }
+}
+
+.grocery-item {
+  margin-bottom: .5rem;
+}
+
+@media print {
+  :host {
+    --recipe-step-margin: 0 0;
+  }
+}
